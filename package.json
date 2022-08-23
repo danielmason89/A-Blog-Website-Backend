@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "nodemon app.js"
   },
   "author": "Daniel Mason",
   "license": "ISC",
@@ -17,6 +17,7 @@
     "lodash": "^4.17.21",
     "mongodb": "^4.9.0",
     "mongoose": "^6.5.2",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.19"
   }
 }
