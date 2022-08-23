@@ -1,6 +1,5 @@
 require("dotenv").config();
 const cors = require("cors");
-const port = process.env.PORT || 4000;
 const express = require("express");
 const mongoose = require("mongoose");
 const blogsPostRoutes = require("./routes/blogspost");
@@ -29,8 +28,9 @@ mongoose
   .connect(process.env.MONGODB)
   .then(() => {
     // listen for requests
+    const port = process.env.PORT || 4000;
     app.listen(port, () => {
-      return console.log(`connected to db & listening on port ${port}`);
+      console.log(`connected to db & listening on port ${port}`);
     });
   })
   .catch((err) => {
