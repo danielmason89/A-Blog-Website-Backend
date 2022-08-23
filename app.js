@@ -8,9 +8,6 @@ const morgan = require("morgan");
 // express app
 const app = express();
 
-// register view engine
-// app.set("view engine", "ejs");
-
 // middleware
 app.use(cors());
 app.use(express.json());
