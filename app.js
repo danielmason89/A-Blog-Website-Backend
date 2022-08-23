@@ -1,6 +1,6 @@
 require("dotenv").config();
 const cors = require("cors");
-const port = process.env.PORT || 5000;
+const port = process.env.PORT;
 const express = require("express");
 const mongoose = require("mongoose");
 const blogsPostRoutes = require("./routes/blogspost");
@@ -10,7 +10,7 @@ const morgan = require("morgan");
 const app = express();
 
 // register view engine
-app.set("view engine", "ejs");
+// app.set("view engine", "ejs");
 
 // middleware
 app.use(cors());
@@ -20,7 +20,6 @@ app.use((req, res, next) => {
   console.log(req.path, req.method);
   next();
 });
-app.use(morgan("dev"));
 
 // routes
 app.use("/api/blogposts", blogsPostRoutes);
@@ -30,15 +29,10 @@ mongoose
   .connect(process.env.MONGODB)
   .then(() => {
     // listen for requests
-    app.listen(process.env.PORT || port, () => {
+    app.listen(process.env.PORT || 4000, () => {
       return console.log(`connected to db & listening on port ${port}`);
     });
   })
   .catch((err) => {
     console.log(err, "the mongodb string is not correct");
   });
-
-// 404
-app.use((req, res) => {
-  res.status(404).render("/404", { title: "404" });
-});
