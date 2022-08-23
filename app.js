@@ -30,7 +30,7 @@ mongoose
   .connect(process.env.MONGODB)
   .then(() => {
     // listen for requests
-    app.listen(port, () => {
+    app.listen(process.env.PORT || port, () => {
       return console.log(`connected to db & listening on port ${port}`);
     });
   })
