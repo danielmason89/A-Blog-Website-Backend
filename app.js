@@ -19,6 +19,10 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get("/api/status", (req, res) => {
+  return res.json({});
+});
+
 // routes
 app.use("/api/blogposts", blogsPostRoutes);
 
