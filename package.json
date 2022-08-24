@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "backend-for-dojo-blog",
   "main": "app.js",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "node test.js"
   },
   "author": "Daniel Mason",
   "license": "ISC",
