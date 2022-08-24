@@ -5,7 +5,7 @@ const blogsPostRoutes = require("./routes/blogspost");
 const morgan = require("morgan");
 const dotenv = require("dotenv");
 
-require(dotenv).config();
+dotenv.config();
 // ^^^^^^
 // express app
 const app = express();
