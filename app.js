@@ -1,5 +1,5 @@
-const express = require('express')
-const PORT = process.env.PORT || 5000
+const express = require("express");
+const PORT = process.env.PORT || 5000;
 
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -37,5 +37,3 @@ mongoose
   .catch((err) => {
     console.log(err, "the mongodb string is not correct");
   });
-
-
