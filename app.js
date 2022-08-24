@@ -10,21 +10,21 @@ dotenv.config();
 // express app
 const app = express();
 
-// middleware
-app.use(cors());
-app.use(express.json());
+// // middleware
+// app.use(cors());
+// app.use(express.json());
 
-app.use((req, res, next) => {
-  console.log(req.path, req.method);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log(req.path, req.method);
+//   next();
+// });
 
 app.get("/api/status", (req, res) => {
   return res.json({});
 });
 
 // routes
-app.use("/api/blogposts", blogsPostRoutes);
+// app.use("/api/blogposts", blogsPostRoutes);
 
 // connect to db
 mongoose
