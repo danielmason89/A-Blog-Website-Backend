@@ -1,10 +1,12 @@
-require("dotenv").config();
 const cors = require("cors");
 const express = require("express");
 const mongoose = require("mongoose");
 const blogsPostRoutes = require("./routes/blogspost");
 const morgan = require("morgan");
+const dotenv = require("dotenv");
 
+require(dotenv).config();
+// ^^^^^^
 // express app
 const app = express();
 
@@ -27,7 +29,7 @@ mongoose
     // listen for requests
     let port = process.env.PORT || 8000;
     app.listen(port, () => {
-      console.log(`connected to db & listening on port ${8000}`);
+      console.log(`connected to db & listening on port ${port}`);
     });
   })
   .catch((err) => {
