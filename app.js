@@ -20,6 +20,10 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get("/", (req, res) => {
+  return res.json("server start");
+});
+
 app.get("/api/status", (req, res) => {
   return res.json({});
 });
