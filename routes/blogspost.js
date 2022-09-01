@@ -6,8 +6,11 @@ const {
   deleteBlogpost,
   updateBlogpost,
 } = require("../controllers/blogpostController");
-const router = express.Router();
+const requireAuth = require("../middleware/requireAuth");
 
+const router = express.Router();
+// require auth for all blogpost routes
+router.use(requireAuth);
 // home
 // router.get("/", (req, res) => {
 //   res.json({ mssg: "homepage, yayy!!" });
