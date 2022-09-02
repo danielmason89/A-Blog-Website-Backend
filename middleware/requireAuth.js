@@ -13,8 +13,9 @@ const requireAuth = async (req, res, next) => {
   console.log({ token });
 
   try {
+    console.log(process.env.JWT, "anything");
     const { _id } = jwt.verify(token, process.env.JWT, { expiresIn: "3d" });
-    console.log("token", "anything");
+
     req.user = await User.findOne({ _id }).select("_id");
     next();
   } catch (error) {
