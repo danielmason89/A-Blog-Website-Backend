@@ -13,8 +13,8 @@ const requireAuth = async (req, res, next) => {
   console.log({ token });
 
   try {
-    const { _id } = jwt.verify(token, process.env.JWT);
-
+    const { _id } = jwt.verify(token, process.env.JWT, { expiresIn: "3d" });
+    console.log("token", "anything");
     req.user = await User.findOne({ _id }).select("_id");
     next();
   } catch (error) {
