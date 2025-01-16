@@ -15,7 +15,12 @@ const morgan = require("morgan");
 const app = express();
 
 // // middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(bodyParser.json());
@@ -38,6 +43,7 @@ app.use("/api/blogposts", blogsPostRoutes);
 app.use("/api/user", userRoutes);
 
 // connect to db
+mongoose.set("strictQuery", false);
 mongoose
   .connect(process.env.MONGODB)
   .then(() => {
