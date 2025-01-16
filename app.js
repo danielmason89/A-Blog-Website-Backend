@@ -13,11 +13,13 @@ const morgan = require("morgan");
 
 // express app
 const app = express();
+app.use(express.static("public"));
 
 // // middleware
 app.use(
   cors({
     origin: "http://localhost:3000",
+    methods: ["GET", "POST", "DELETE"],
     credentials: true,
   })
 );
