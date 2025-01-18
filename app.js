@@ -15,23 +15,42 @@ const morgan = require("morgan");
 const app = express();
 app.use(express.static("public"));
 
-// // middleware
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST", "DELETE"],
-    credentials: true,
-  })
-);
+// CORS Setup
+const whitelist = [
+  "http://localhost:3000",
+  "https://daniel-mason-blog.netlify.app",
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "POST", "DELETE"],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
+// Enable preflight across-the-board
+app.options("*", cors(corsOptions));
+
+// middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(bodyParser.json());
 
+// Logging middleware for debugging each request
 app.use((req, res, next) => {
   console.log(req.path, req.method);
   next();
 });
 
+// Routes
 app.get("/", (req, res) => {
   return res.json("server start");
 });
@@ -40,10 +59,10 @@ app.get("/api/status", (req, res) => {
   return res.json({});
 });
 
-// routes
 app.use("/api/blogposts", blogsPostRoutes);
 app.use("/api/user", userRoutes);
 
+// --- MongoDB Connection ---
 // connect to db
 mongoose.set("strictQuery", false);
 mongoose
