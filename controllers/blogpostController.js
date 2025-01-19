@@ -3,8 +3,14 @@ const mongoose = require("mongoose");
 
 // Get all blog posts
 const getBlogposts = async (req, res) => {
-  const blogposts = await Blogpost.find({}).sort({ createdAt: -1 });
-  res.status(200).json(blogposts);
+  try {
+    const blogposts = await Blogpost.find({}).sort({ createdAt: -1 });
+    res.status(200).json(blogposts);
+  } catch (err) {
+    res
+      .status(500)
+      .json({ error: "could not fetch the data for that resource" });
+  }
 };
 
 // Get a single blogpost

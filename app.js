@@ -1,18 +1,17 @@
 const express = require("express");
+const app = express();
+const cors = require("cors");
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 dotenv.config();
 const mongoose = require("mongoose");
 const PORT = process.env.PORT || 5000;
 
-const cors = require("cors");
-
 const blogsPostRoutes = require("./routes/blogspost");
 const userRoutes = require("./routes/user");
 const morgan = require("morgan");
 
 // express app
-const app = express();
 app.use(express.static("public"));
 
 // CORS Setup

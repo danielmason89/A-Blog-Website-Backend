@@ -1,4 +1,5 @@
 const express = require("express");
+const router = express.Router();
 const {
   createBlogpost,
   getBlogposts,
@@ -8,23 +9,14 @@ const {
 } = require("../controllers/blogpostController");
 const requireAuth = require("../middleware/requireAuth");
 
-const router = express.Router();
-// require auth for all blogpost routes
-router.use(requireAuth);
-// home
-// router.get("/", (req, res) => {
-//   res.json({ mssg: "homepage, yayy!!" });
-// });
-
-// // about page
-// router.get("/about", (req, res) => {
-//   res.json({ mssg: "aboutpage, yayy!!" });
-// });
-
+// Public GET endpoints (no authentication required)
 // Get all blog posts
 router.get("/", getBlogposts);
 // Get a single blog posts
 router.get("/:id", getBlogpost);
+
+// require auth for these blogpost routes
+router.use(requireAuth);
 // Post a new blog post
 router.post("/", createBlogpost);
 // Delete a blog post
