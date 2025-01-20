@@ -15,10 +15,7 @@ const morgan = require("morgan");
 app.use(express.static("public"));
 
 // CORS Setup
-const whitelist = [
-  "http://localhost:3000",
-  "https://daniel-mason-blog.netlify.app",
-];
+const whitelist = ["http://localhost:3000", "https://dev-blog.ca"];
 
 const corsOptions = {
   origin: function (origin, callback) {
