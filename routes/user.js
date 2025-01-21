@@ -1,7 +1,7 @@
 const express = require("express");
 
 // controller functions
-const { signupUser, loginUser } = require("../controllers/userController");
+const { subscribeUser, loginUser } = require("../controllers/userController");
 
 const router = express.Router();
 
@@ -9,6 +9,6 @@ const router = express.Router();
 router.post("/login", loginUser);
 
 // sign-up route
-router.post("/signup", signupUser);
+router.post("/subscribe", subscribeUser);
 
 module.exports = router;
