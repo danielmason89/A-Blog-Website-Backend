@@ -16,7 +16,7 @@ const userSchema = new Schema({
   },
 });
 
-// Static sign-up method
+// Static subscribe method
 userSchema.statics.signup = async function (email, password) {
   // validation
   if (!email || !password) {

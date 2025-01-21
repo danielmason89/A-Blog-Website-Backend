@@ -18,12 +18,12 @@ const loginUser = async (req, res) => {
   }
 };
 
-// sign-up user
+// subscribe user
 const subscribeUser = async (req, res) => {
   const { email, password } = req.body;
   console.log("email123", req.body);
   try {
-    const user = await User.subscribe(email, password);
+    const user = await User.signup(email, password);
     // create a token
     const token = createToken(user._id);
     res.status(200).json({ email, token });
