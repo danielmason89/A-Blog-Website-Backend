@@ -42,7 +42,7 @@ app.use(bodyParser.json());
 
 // Logging middleware for debugging each request
 app.use((req, res, next) => {
-  console.log(req.path, req.method);
+  console.log("%s %s", req.path, req.method);
   next();
 });
 
