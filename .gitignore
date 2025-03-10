@@ -27,3 +27,5 @@ yarn-error.log*
 
 
 .env
+
+blog-api/node_modules
