@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const rateLimit = require('express-rate-limit');
 const cors = require("cors");
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
@@ -13,6 +14,11 @@ const morgan = require("morgan");
 
 // express app
 app.use(express.static("public"));
+
+app.use(rateLimit({
+  windowMs: 60000,
+  max: 10
+}));
 
 // CORS Setup
 const whitelist = ["http://localhost:3000", "https://dev-blog.ca"];
