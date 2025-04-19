@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const RateLimit = require("express-rate-limit");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
@@ -10,16 +9,10 @@ const PORT = process.env.PORT || 5000;
 
 const blogsPostRoutes = require("./routes/blogspost");
 const userRoutes = require("./routes/user");
-// const morgan = require("morgan");
+const morgan = require("morgan");
 
 // express app
 app.use(express.static("public"));
-
-// Rate Limit Implementation
-const limiter = RateLimit({
-  window: 15 * 600 * 1000,
-  max: 10
-})
 
 // CORS Setup
 const whitelist = ["http://localhost:3000", "https://dev-blog.ca"];
@@ -38,7 +31,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.use(limiter);
 
 // Enable preflight across-the-board
 app.options("*", cors(corsOptions));
