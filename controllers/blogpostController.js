@@ -78,11 +78,16 @@ const updateBlogpost = async (req, res) => {
     return res.status(404).json({ error: "no such blogpost" });
   }
 
+  const allowedFields = ["title", "author", "body"];
+  const updateData = {};
+  for (const field of allowedFields) {
+    if (req.body[field] !== undefined) {
+      updateData[field] = req.body[field];
+    }
+  }
   const blogpost = await Blogpost.findOneAndUpdate(
     { _id: id },
-    {
-      ...req.body,
-    }
+    updateData
   );
   if (!blogpost) {
     return res.status(400).json({ error: "no such blogpost" });
