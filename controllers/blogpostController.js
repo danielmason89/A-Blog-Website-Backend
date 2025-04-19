@@ -82,6 +82,9 @@ const updateBlogpost = async (req, res) => {
   const updateData = {};
   for (const field of allowedFields) {
     if (req.body[field] !== undefined) {
+      if (typeof req.body[field] !== "string") {
+        return res.status(400).json({ error: `Invalid value for ${field}` });
+      }
       updateData[field] = req.body[field];
     }
   }
