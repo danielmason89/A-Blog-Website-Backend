@@ -1,0 +1,95 @@
+import express, { type Request, type NextFunction, type Response } from "express"
+import rateLimit from "express-rate-limit";
+import cors, { type CorsOptions } from "cors";
+import bodyParser from "body-parser";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import morgan from "morgan";
+
+import blogsPostRoutes from "./routes/blogspost.ts";
+import userRoutes from "./routes/user.ts";
+
+const app = express();
+dotenv.config();
+
+const PORT = process.env.PORT || 5000;
+
+app.use(rateLimit({
+  windowMs: 60000,
+  max: 10
+}));
+
+// CORS Setup
+const whitelist = ["http://localhost:3000", "https://dev-blog.ca"];
+const corsOptions: CorsOptions = {
+  origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
+    if (!origin) return callback(null, true);
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "POST", "DELETE"],
+  credentials: true,
+  allowedHeaders: ["Content-Type", "Authorization"]
+};
+app.use(cors(corsOptions));
+// Enable preflight across-the-board
+app.options("*", cors(corsOptions));
+
+// logging
+app.use(morgan("dev"));
+
+// simple console logger - Logging middleware for debugging each request
+app.use((req: Request, res: Response, next: NextFunction) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
+
+// middleware - body parser
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(express.json());
+
+// serves static files
+app.use(express.static("public"));
+
+// Routes
+app.get("/", (req: Request, res: Response) => {
+   res.json({ message: "Welcome to the A Dev's Blog Backend"});
+});
+
+app.get("/api/status", async (req: Request, res: Response) => {
+  res.json({
+    status: "ok",
+    timestamp: new Date().toString()
+  });
+});
+
+app.use("/api/blogposts", blogsPostRoutes);
+app.use("/api/user", userRoutes);
+
+app.use(
+  (err: any, req: Request, res: Response, next: NextFunction) => {
+    console.error("❌ Uncaught error:", err);
+    res
+      .status(500)
+      .json({ error: err.message || "Internal server error" });
+  }
+);
+
+// --- MongoDB Connection ---
+// connect to db
+mongoose.set("strictQuery", false);
+mongoose
+  .connect(process.env.MONGODB || "")
+  .then(() => {
+    // listen for requests
+    app.listen(PORT, () => {
+      console.log(`connected to db & listening on port ${PORT}`);
+    });
+  })
+  .catch((err: Error) => {
+    console.log(err, "the mongodb string is not correct");
+  });

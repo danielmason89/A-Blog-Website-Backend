@@ -1,13 +1,14 @@
-const express = require("express");
-const router = express.Router();
-const {
+import express from "express";
+import {
   createBlogpost,
   getBlogposts,
   getBlogpost,
   deleteBlogpost,
   updateBlogpost,
-} = require("../controllers/blogpostController");
-const requireAuth = require("../middleware/requireAuth");
+} from "../controllers/blogpostController.ts";
+import requireAuth from "../middleware/requireAuth.ts";
+
+const router = express.Router();
 
 // Public GET endpoints (no authentication required)
 // Get all blog posts
@@ -24,4 +25,4 @@ router.delete("/:id", deleteBlogpost);
 // update a new blog post
 router.patch("/:id", updateBlogpost);
 
-module.exports = router;
+export default router;
