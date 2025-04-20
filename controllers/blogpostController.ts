@@ -1,6 +1,13 @@
 import { type Request, type Response, type NextFunction } from "express";
 import Blogpost from "../models/blogpostModel.ts";
 import mongoose from "mongoose";
+import { z } from "zod";
+
+const updateSchema = z.object({
+  title: z.string().min(1).optional(),
+  content: z.string().min(1).optional(),
+  tags: z.array(z.string()).optional(),
+}).strict(); 
 
 // Get a single blogpost
 export const getBlogpost = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -74,17 +81,17 @@ export const deleteBlogpost = async (req: Request, res: Response, next: NextFunc
 // Update a blogpost
 export const updateBlogpost = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-
     const { id } = req.params;
+    
     if (!mongoose.Types.ObjectId.isValid(id)) {
       res.status(404).json({ error: "no such blogpost exist in the database" });
     }
     
+    const parsed = updateSchema.parse(req.body);
     const blogpost = await Blogpost.findOneAndUpdate(
       { _id: id },
-      {
-        ...req.body,
-      }
+      { $set: parsed },
+      { new: true, runValidators: true }
     );
     if (!blogpost) {
       res.status(400).json({ error: "no such blogpost to update" });

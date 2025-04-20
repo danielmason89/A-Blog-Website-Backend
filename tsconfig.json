@@ -10,6 +10,7 @@
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "verbatimModuleSyntax": true,
-    "erasableSyntaxOnly": true
+    "erasableSyntaxOnly": true,
+    "allowSyntheticDefaultImports": true
   },
 }
