@@ -1,5 +1,5 @@
 import { type Request, type Response, type NextFunction } from "express";
-import Blogpost from "../models/blogpostModel.ts";
+import Blogpost from "../models/blogpostModel.js";
 import mongoose from "mongoose";
 import { z } from "zod";
 

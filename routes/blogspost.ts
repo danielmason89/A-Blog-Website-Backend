@@ -5,8 +5,8 @@ import {
   getBlogpost,
   deleteBlogpost,
   updateBlogpost,
-} from "../controllers/blogpostController.ts";
-import requireAuth from "../middleware/requireAuth.ts";
+} from "../controllers/blogpostController.js";
+import requireAuth from "../middleware/requireAuth.js";
 
 const router = express.Router();
 
