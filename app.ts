@@ -24,16 +24,15 @@ const whitelist = ["http://localhost:3000", "https://dev-blog.ca"];
 const corsOptions: CorsOptions = {
   origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
     if (!origin) return callback(null, true);
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
+      return whitelist.includes(origin)
+        ? callback(null, true)
+        : callback( new Error('Not allowed by CORS'));
   },
-  methods: ["GET", "POST", "DELETE"],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"]
 };
+
 app.use(cors(corsOptions));
 // Enable preflight across-the-board
 app.options("*", cors(corsOptions));
