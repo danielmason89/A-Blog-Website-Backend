@@ -1,5 +1,5 @@
 import jwt, { type JwtPayload } from "jsonwebtoken";
-import User from "../models/userModel.ts";
+import User from "../models/userModel.js";
 import { type NextFunction, type Request, type Response } from "express";
 
 const requireAuth = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -9,7 +9,8 @@ const requireAuth = async (req: Request, res: Response, next: NextFunction): Pro
     console.log("No authorization header found");
     res.status(401).json({ error: "Authorization token required" });
   }
-  const token = authorization!.split(" ")[1];
+  
+  const token = authorization!.split(" ")[1] || "";
   try {
     const decoded = jwt.verify(token, process.env.JWT || "");
     if (typeof decoded === "object" && decoded !== null && "_id" in decoded) {

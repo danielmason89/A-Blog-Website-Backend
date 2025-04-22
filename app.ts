@@ -6,8 +6,8 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import morgan from "morgan";
 
-import blogsPostRoutes from "./routes/blogspost.ts";
-import userRoutes from "./routes/user.ts";
+import blogsPostRoutes from "./routes/blogspost.js";
+import userRoutes from "./routes/user.js";
 
 const app = express();
 dotenv.config();

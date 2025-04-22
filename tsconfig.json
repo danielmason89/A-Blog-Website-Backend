@@ -7,10 +7,9 @@
     "outDir": "dist",
     "lib": ["es2022", "dom"],
     "strict": true,
-    "allowImportingTsExtensions": true,
-    "noEmit": true,
     "verbatimModuleSyntax": true,
     "erasableSyntaxOnly": true,
-    "allowSyntheticDefaultImports": true
+    "typeRoots": ["./node_modules/@types", "./types" ],
   },
+  "include": ["app.ts", "*.ts", "types/**/*.d.ts"]
 }
