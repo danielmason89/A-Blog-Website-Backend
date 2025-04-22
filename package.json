@@ -2,13 +2,13 @@
   "name": "dojo-blog-backend",
   "version": "1.0.0",
   "description": "backend-for-dojo-blog",
-  "main": "dist/app.js",
+  "main": "app.ts",
+  "type": "module",
   "engines": {
     "node": "22.x"
   },
   "scripts": {
     "build": "tsc",
-    "heroku-postbuild": "npm run build",
     "dev": "tsx watch app.ts",
     "start": "node dist/app.js"
   },
@@ -20,6 +20,10 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.20.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^7.0.2",
+    "@mui/material": "^7.0.2",
     "express-rate-limit": "^7.5.0",
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",

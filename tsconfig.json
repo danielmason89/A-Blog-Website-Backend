@@ -3,15 +3,13 @@
     "target": "es2022",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "module": "CommonJS",
+    "module": "NodeNext",
     "outDir": "dist",
-    "rootDir": ".",
     "lib": ["es2022", "dom"],
     "strict": true,
-    // "allowImportingTsExtensions": true,
-    "noEmit": false,
-    // "verbatimModuleSyntax": true,
+    "verbatimModuleSyntax": true,
     "erasableSyntaxOnly": true,
-    "allowSyntheticDefaultImports": true
+    "typeRoots": ["./node_modules/@types", "./types" ],
   },
+  "include": ["app.ts", "*.ts", "types/**/*.d.ts"]
 }
