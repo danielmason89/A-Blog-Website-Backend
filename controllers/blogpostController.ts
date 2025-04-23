@@ -33,7 +33,7 @@ export const getBlogposts = async (req: Request, res: Response) => {
 // Create a blogpost
 export const createBlogpost = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const { title, author, body } = req.body;
+    const { title, body, tags = [], status = "draft" } = req.body;
     let emptyFields = [];
 
     if (!title) {
@@ -42,8 +42,11 @@ export const createBlogpost = async (req: Request, res: Response, next: NextFunc
     if (!body) {
       emptyFields.push("body");
     }
+
+    const author = req.user?._id;
     if (!author) {
-      emptyFields.push("author");
+      res.status(401).json({ error: "Request not authorized." });
+      return;
     }
 
     if (emptyFields.length > 0) {
