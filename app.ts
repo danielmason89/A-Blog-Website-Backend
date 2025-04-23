@@ -1,7 +1,6 @@
 import express, { type Request, type NextFunction, type Response } from "express"
 import rateLimit from "express-rate-limit";
 import cors, { type CorsOptions } from "cors";
-import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import morgan from "morgan";
@@ -47,8 +46,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 // middleware - body parser
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 app.use(express.json());
 
 // serves static files
@@ -77,6 +74,7 @@ app.use(
       .json({ error: err.message || "Internal server error" });
   }
 );
+
 
 // --- MongoDB Connection ---
 // connect to db
