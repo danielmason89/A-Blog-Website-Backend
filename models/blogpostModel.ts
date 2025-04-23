@@ -18,7 +18,7 @@ const blogpostSchema = new mongoose.Schema(
       lowercase: true,
     },
     author: {
-      type: "string",
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },

@@ -2,6 +2,7 @@ import { type Request, type Response, type NextFunction } from "express";
 import Blogpost from "../models/blogpostModel.js";
 import mongoose from "mongoose";
 import { z } from "zod";
+import { type IUser } from "../models/userModel.js";
 
 const updateSchema = z.object({
   title: z.string().min(1).optional(),
@@ -13,7 +14,7 @@ const updateSchema = z.object({
 export const getBlogpost = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { id } = req.params;
-    const blogpost = await Blogpost.findById(id);
+    const blogpost = await Blogpost.findById(id).populate<{ author: IUser }>("author", "email");
     res.status(200).json(blogpost);
   } catch (error) {
     next(res.status(500).json({ error: "Failed to fetch blog post"}));
