@@ -63,7 +63,7 @@ app.get("/api/status", async (req: Request, res: Response) => {
   });
 });
 
-app.use("/api/blogposts", blogsPostRoutes);
+app.use("/api/blogpost", blogsPostRoutes);
 app.use("/api/user", userRoutes);
 
 app.use(

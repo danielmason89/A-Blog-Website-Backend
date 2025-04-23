@@ -4,13 +4,20 @@ import { type NextFunction, type Request, type Response } from "express";
 
 const requireAuth = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   // Verify the presence of an Authorization header
-  const { authorization } = req.headers;
-  if (!authorization) {
-    console.log("No authorization header found");
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader) {
     res.status(401).json({ error: "Authorization token required" });
+    return next();
   }
-  
-  const token = authorization!.split(" ")[1] || "";
+
+  const parts = authHeader.split(" ");
+  if (parts.length !== 2 || parts[0] !== "Bearer") {
+    res.status(401).json({ error: "Invalid authorization format" });
+    return next();
+  }
+
+  const token = parts[1];
   try {
     const decoded = jwt.verify(token, process.env.JWT || "");
     if (typeof decoded === "object" && decoded !== null && "_id" in decoded) {
