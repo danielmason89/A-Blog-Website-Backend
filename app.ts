@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 5000;
 
 export const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: process.env.NODE_ENV === "production" ? 100 : 0,
+  max: process.env.NODE_ENV === "production" ? 100 : 150,
   standardHeaders: true,
   legacyHeaders: false,
   message: "Too many requests, please try again later.",
