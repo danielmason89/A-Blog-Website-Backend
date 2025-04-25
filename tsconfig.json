@@ -1,15 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es2022",
+    "target": "ESNext",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "outDir": "dist",
     "lib": ["es2022", "dom"],
     "strict": true,
     "verbatimModuleSyntax": true,
     "erasableSyntaxOnly": true,
     "typeRoots": ["./node_modules/@types", "./types" ],
+    "resolveJsonModule": true
   },
   "include": ["app.ts", "*.ts", "types/**/*.d.ts"]
 }
