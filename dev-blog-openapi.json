@@ -1,0 +1,253 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Dev-Blog's API",
+    "version": "1.0.0",
+    "description": "Dev Blog's REST endpoints for user authentication and blogpost management."
+  },
+  "servers": [
+    { "url": "http://localhost:5000", "description": "Local Dev" },
+    { "url": "https://api.dev-blog.com", "description": "Production" }
+  ],
+  "tags": [
+    { "name": "Auth", "description": "Endpoints for login / subscription" },
+    { "name": "Blogposts", "description": "CRUD for blog articles" }
+  ],
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "AuthCredentials": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": { "type": "string", "format": "email" },
+          "password": { "type": "string", "format": "password" }
+        },
+        "example": {
+          "email": "test123456@test.com",
+          "password": "1Piece1!123456"
+        }
+      },
+      "AuthToken": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "JWT access token"
+          }
+        }
+      },
+      "Blogpost": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "author",
+          "body",
+          "status",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "680969e5dabe75bc2f3cd038"
+          },
+          "title": { "type": "string" },
+          "author": { "type": "string" },
+          "body": { "type": "string" },
+          "tags": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "status": {
+            "type": "string",
+            "enum": ["draft", "published"]
+          },
+          "slug": { "type": "string" },
+          "readingTime": { "type": "integer" },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "BlogpostCreate": {
+        "allOf": [
+          { "$ref": "#/components/schemas/Blogpost" },
+          { "required": ["title", "body"] }
+        ]
+      },
+      "BlogpostUpdate": {
+        "type": "object",
+        "description": "Fields that may be updated.",
+        "properties": {
+          "title": { "type": "string" },
+          "body": { "type": "string" },
+          "tags": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "additionalProperties": false,
+        "minProperties": 1
+      }
+    }
+  },
+  "paths": {
+    "/api/user/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Login contributor",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AuthCredentials" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful login",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/AuthToken" }
+              }
+            }
+          },
+          "401": { "description": "Invalid email or password" }
+        }
+      }
+    },
+    "/api/user/subscribe": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Subscribe a new contributor",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AuthCredentials" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Subscription successful",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/AuthToken" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/blogpost": {
+      "get": {
+        "tags": ["Blogposts"],
+        "summary": "Get all blogposts",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Array of blogposts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Blogpost" }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Blogposts"],
+        "summary": "Create a new blogpost",
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/BlogpostCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Blogpost created",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Blogpost" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/blogpost/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "string" },
+          "description": "Blogpost ID"
+        }
+      ],
+      "get": {
+        "tags": ["Blogposts"],
+        "summary": "Get a single blogpost by ID",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Blogpost found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Blogpost" }
+              }
+            }
+          },
+          "404": { "description": "Blogpost not found" }
+        }
+      },
+      "patch": {
+        "tags": ["Blogposts"],
+        "summary": "Update a blogpost",
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/BlogpostUpdate" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Blogpost updated",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Blogpost" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Blogposts"],
+        "summary": "Delete a blogpost",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "204": { "description": "Blogpost deleted" }
+        }
+      }
+    }
+  }
+}

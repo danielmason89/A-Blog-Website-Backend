@@ -24,7 +24,8 @@ export const getBlogpost = async (req: Request, res: Response, next: NextFunctio
 // Get all blog posts
 export const getBlogposts = async (req: Request, res: Response) => {
   try {
-    const blogposts = await Blogpost.find({}).sort({ createdAt: -1 }).populate<{ author: IUser }>("author", "email");
+    const limit = parseInt(req.query.limit as string) || 0;
+    const blogposts = await Blogpost.find({}).sort({ createdAt: -1 }).limit(limit).populate<{ author: IUser }>("author", "email");
     res.status(200).json(blogposts);
   } catch (err) {
     res.status(500).json({ error: "could not fetch the data for that resource" });
